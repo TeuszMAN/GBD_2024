@@ -11,9 +11,22 @@ services:
             MYSQL_PASSWORD: gbd_pass 
         volumes:
             - mysql-data:/var/lib/mysql
-            - ./docker/init.sql:/docker-entrypoint-initdb.d/0_init.sql:ro
+            - ./docker/init.sql:/docker-entrypoint-initdb.d/0_init.sql
         ports:
             - "3306:3306"
+
+    phpmyadmin:
+        image: phpmyadmin/phpmyadmin:latest
+        container_name: gbd_phpmyadmin
+        environment:
+            PMA_HOST: db
+            PMA_USER: gbd_user
+            PMA_PASSWORD: gbd_pass
+        ports: 
+            - "8080:80"
+
+        depends_on:
+            - db
 
 volumes:
     mysql-data: {}
